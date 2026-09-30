@@ -1,0 +1,26 @@
+2026-Sep-30-23:52:38 : Run Queries Phase Started
+2026-Sep-30-23:52:38 : Executing Query 1: SELECT * FROM Largest_banks
+2026-Sep-30-23:54:35 : Run Queries Phase Started
+2026-Sep-30-23:54:35 : Executing Query 1: SELECT * FROM Largest_banks
+2026-Sep-30-23:54:58 : Run Queries Phase Started
+2026-Sep-30-23:54:58 : Executing Query 1: SELECT * FROM Largest_banks
+2026-Sep-30-23:55:19 : Run Queries Phase Started
+2026-Sep-30-23:55:19 : Executing Query 1: SELECT * FROM Largest_banks
+2026-Sep-30-23:55:26 : Run Queries Phase Started
+2026-Sep-30-23:55:26 : Executing Query 1: SELECT * FROM Largest_banks
+2026-Sep-30-23:55:32 : Run Queries Phase Started
+2026-Sep-30-23:55:32 : Executing Query 1: SELECT * FROM Largest_banks
+2026-Sep-30-23:55:36 : Run Queries Phase Started
+2026-Sep-30-23:55:36 : Executing Query 1: SELECT * FROM Largest_banks
+2026-Sep-30-23:57:16 : Run Queries Phase Started
+2026-Sep-30-23:57:16 : Executing Query 2: SELECT AVG(MC_GBP_Billion) FROM Largest_banks
+2026-Sep-30-23:58:02 : Run Queries Phase Started
+2026-Sep-30-23:58:02 : Executing Query 1: SELECT * FROM Largest_banks
+2026-Oct-01-00:00:22 : Run Queries Phase Started
+2026-Oct-01-00:00:22 : Executing Query 1: SELECT * FROM Largest_banks
+2026-Oct-01-00:02:54 : Run Queries Phase Started
+2026-Oct-01-00:02:54 : Executing Query 1: SELECT * FROM Largest_banks
+2026-Oct-01-00:20:51 : ETL Process Started
+2026-Oct-01-00:20:56 : Data extraction completed
+2026-Oct-01-00:40:51 : ETL Process Started
+2026-Oct-01-00:41:20 : ETL Process Started
