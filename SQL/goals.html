@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Data Engineering Notes</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&family=Caveat:wght@600;700&display=swap');
+
+:root{
+  --green:#1f7a3d;
+  --navy:#1c2b52;
+  --purple:#5b3aa0;
+  --paper:#eeece5;
+  --line:#dcd6c2;
+  --margin:#e6a7a7;
+  --ink-black:#26262c;
+}
+
+*{box-sizing:border-box;}
+
+body{
+  margin:0;
+  padding:30px 12px;
+  background:#f0ece3;
+  font-family:'Kalam',cursive;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:36px;
+}
+
+.page{
+  position:relative;
+  width:100%;
+  max-width:860px;
+  background:
+    repeating-linear-gradient(
+      var(--paper),
+      var(--paper) 33px,
+      var(--line) 34px
+    );
+  background-color:var(--paper);
+  border-radius:6px;
+  box-shadow:0 10px 26px rgba(0,0,0,0.14);
+  padding:42px 34px 42px 70px;
+  min-height:640px;
+  border:1px solid #e3ddc9;
+}
+
+.page::before{ /* red margin line */
+  content:"";
+  position:absolute;
+  top:0; bottom:0; left:52px;
+  width:2px;
+  background:var(--margin);
+  opacity:0.8;
+}
+
+.spiral{
+  position:absolute;
+  left:-14px;
+  top:20px;
+  bottom:20px;
+  width:28px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+.spiral div{
+  width:20px;height:20px;
+  border-radius:50%;
+  border:3px solid #b9b3a0;
+  background:#ddd7cb;
+}
+
+.page-footer{
+  position:absolute;
+  bottom:14px; left:34px; right:34px;
+  display:flex; justify-content:space-between;
+  font-family:'Kalam',cursive;
+  font-size:13px; color:#9a9585;
+  opacity:0.75;
+  border-top:1px solid var(--line);
+  padding-top:6px;
+}
+
+.page-num{
+  position:absolute; top:14px; right:34px;
+  font-size:14px; color:#9a9585;
+}
+
+h1.title{
+  display:inline-block;
+  font-size:30px;
+  color:var(--green);
+  font-weight:700;
+  border:2.5px solid var(--green);
+  border-radius:14px;
+  padding:2px 22px;
+  margin:2px 0 22px 0;
+  transform:rotate(-0.6deg);
+}
+
+h2.box-title{
+  display:inline-block;
+  font-size:24px;
+  color:var(--ink-black);
+  font-weight:700;
+  border:2px solid var(--ink-black);
+  padding:2px 16px;
+  margin:6px 0 18px 0;
+}
+
+h3.section{
+  color:var(--green);
+  font-size:22px;
+  font-weight:700;
+  text-decoration:underline;
+  text-decoration-color:var(--green);
+  margin:22px 0 10px 0;
+}
+
+.circle-term{
+  display:inline-block;
+  color:var(--green);
+  font-weight:700;
+  font-size:20px;
+  border:2px solid var(--green);
+  border-radius:50%/60%;
+  padding:2px 16px;
+}
+
+.oval-term{
+  display:inline-block;
+  color:var(--green);
+  font-weight:700;
+  font-size:19px;
+  border:2px solid var(--green);
+  border-radius:50%;
+  padding:3px 18px;
+  white-space:nowrap;
+}
+
+.cloud-term{
+  display:inline-block;
+  color:var(--green);
+  font-weight:700;
+  font-size:18px;
+  border:2px solid var(--green);
+  border-radius:40% 60% 55% 45%/50% 45% 55% 50%;
+  padding:6px 14px;
+  text-align:center;
+}
+
+p, li{
+  color:var(--navy);
+  font-size:19px;
+  line-height:1.55;
+  margin:6px 0;
+}
+
+.note{
+  color:var(--purple);
+  font-size:17px;
+  font-style:italic;
+}
+
+.black{ color:var(--ink-black); }
+
+.arrow{ color:var(--green); font-weight:700; }
+
+/* ---------- PAGE 1 layout ---------- */
+.layers{
+  display:flex;
+  gap:28px;
+  margin:14px 0 8px 0;
+  flex-wrap:wrap;
+}
+.layer-col{
+  flex:1 1 220px;
+  text-align:center;
+}
+.layer-col .name{
+  color:var(--navy);
+  font-weight:700;
+  font-size:21px;
+}
+.layer-col .arrow-down{
+  color:var(--green);
+  font-size:22px;
+}
+.layer-col p{
+  font-size:17px;
+  text-align:left;
+}
+
+.arch-row{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin:18px 0;
+  flex-wrap:wrap;
+}
+.arch-row .cloud-term{ min-width:150px; }
+.arch-row .boxstep{
+  border:2px solid var(--purple);
+  color:var(--purple);
+  font-weight:700;
+  padding:6px 14px;
+  border-radius:6px;
+  font-size:18px;
+  white-space:nowrap;
+}
+.arch-row .arrow{ font-size:22px; }
+.arch-row .desc{
+  color:var(--ink-black);
+  font-size:17px;
+  flex:1 1 260px;
+  min-width:200px;
+}
+.use-label{
+  color:var(--green);
+  font-size:15px;
+  margin-left:170px;
+  margin-bottom:-6px;
+}
+
+/* ---------- PAGE 3 key diagram ---------- */
+.key-diagram{
+  margin:18px auto;
+  width:100%;
+  max-width:560px;
+  text-align:center;
+}
+.box-outer{
+  border:2px solid var(--purple);
+  border-radius:8px;
+  padding:26px 16px 16px;
+  position:relative;
+  color:var(--purple);
+  font-weight:700;
+  font-size:19px;
+}
+.box-mid{
+  border:2px solid var(--purple);
+  border-radius:8px;
+  padding:26px 16px 16px;
+  margin-top:8px;
+  position:relative;
+  color:var(--purple);
+  font-weight:700;
+  font-size:19px;
+}
+.box-inner-row{
+  display:flex;
+  justify-content:space-around;
+  gap:20px;
+  margin-top:10px;
+}
+.box-inner{
+  border:2px solid var(--navy);
+  border-radius:6px;
+  padding:10px 14px;
+  color:var(--navy);
+  font-weight:700;
+  font-size:18px;
+  flex:1;
+}
+.label-top{
+  position:absolute; top:-14px; left:50%; transform:translateX(-50%);
+  background:var(--paper); padding:0 8px; font-size:16px;
+}
+
+.two-col{
+  display:flex; gap:30px; margin-top:16px; flex-wrap:wrap;
+}
+.two-col > div{ flex:1 1 240px; font-size:17px; color:var(--ink-black); }
+
+/* ---------- PAGE 5 brace ---------- */
+.anomaly-list{
+  border-left:3px solid var(--green);
+  padding-left:16px;
+  margin:8px 0 8px 8px;
+}
+</style>
+</head>
+<body>
+
+<!-- PAGE 1 -->
+<div class="page">
+  <div class="spiral">
+    <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+  </div>
+  <div class="page-num">1 / 1</div>
+
+  <h1 class="title">Data modeling</h1>
+  <p class="black">creating a visual representation or blueprint on<br>an entire information system or parts of it.</p>
+
+  <h3 class="section">layers</h3>
+  <div class="layers">
+    <div class="layer-col">
+      <div class="name">Conceptual<br>model</div>
+      <div class="arrow-down">&#8595;</div>
+      <p>Defines what the system contains without technical details.</p>
+    </div>
+    <div class="layer-col">
+      <div class="name">logical<br>model</div>
+      <div class="arrow-down">&#8595;</div>
+      <p>Defines how entities relate to each other. (Primary keys &amp; relationships)</p>
+    </div>
+    <div class="layer-col">
+      <div class="name">Physical<br>model</div>
+      <div class="arrow-down">&#8595;</div>
+      <p>Defines the exact database implementation for a specific RDBMS or storage engine.</p>
+    </div>
+  </div>
+
+  <h3 class="section">Architecture and system design</h3>
+  <div class="use-label">use</div>
+
+  <div class="arch-row">
+    <div class="cloud-term">ER diagram</div>
+    <span class="arrow">&#8594;</span>
+    <div class="boxstep">OLTP</div>
+    <span class="arrow">&#8594;</span>
+    <div class="circle-term">3NF</div>
+    <span class="arrow">&#8594;</span>
+    <div class="desc">Reduce data redundancy and maintain high data integrity for transactional.</div>
+  </div>
+
+  <div class="arch-row">
+    <div class="cloud-term">Dimensional<br>modeling</div>
+    <span class="arrow">&#8594;</span>
+    <div class="boxstep">OLAP</div>
+    <span class="arrow">&#8594;</span>
+    <div class="circle-term" style="font-size:16px;">star/snowflake<br>schema</div>
+    <span class="arrow">&#8594;</span>
+    <div class="desc">Optimize for fast reading &hellip; in data warehouse.</div>
+  </div>
+
+  <div class="arch-row">
+    <div class="cloud-term">Data vault<br>modeling</div>
+    <span class="arrow">&#8594;</span>
+    <div class="boxstep">Data<br>warehouse</div>
+    <span class="arrow">&#8594;</span>
+    <div class="desc black" style="font-weight:700;">enterprise historical tracking</div>
+    <span class="arrow">&#8594;</span>
+    <div class="desc">separate data into<br>Hubs &#8658; (Bis key)<br>links &#8658; (relationship)</div>
+  </div>
+
+  <div class="arch-row">
+    <div class="cloud-term">No sql<br>modeling</div>
+    <span class="arrow">&#8594;</span>
+    <div class="boxstep">web APPs<br>and real time</div>
+    <span class="arrow">&#8594;</span>
+    <div class="desc black" style="font-weight:700;">Flexibility and high<br>read/write</div>
+    <span class="arrow">&#8594;</span>
+    <div class="desc">JSON document structures</div>
+  </div>
+
+  <p class="black"><span class="oval-term" style="font-size:17px;">graph modeling</span> &#8658; Complex data.</p>
+
+  <div class="page-footer"><span>Data Modeling</span><span>Notebook &middot; pg 1</span></div>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page">
+  <div class="spiral">
+    <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+  </div>
+  <div class="page-num">1 / 1</div>
+
+  <h2 class="box-title">Data types</h2>
+
+  <p><span class="circle-term">Numeric</span></p>
+  <table style="width:100%; border-collapse:collapse; margin:10px 0; font-size:18px; color:var(--navy);">
+    <tr><td style="padding:4px 10px;">INT</td><td>&minus;2B to 2B</td><td>4 byte</td><td></td></tr>
+    <tr><td style="padding:4px 10px;">BIGINT</td><td>&#8592; more</td><td></td><td></td></tr>
+    <tr><td style="padding:4px 10px;">Float</td><td>32 bits (4 byte)</td><td>7 decimal digits</td><td class="note">&larr; low memory</td></tr>
+    <tr><td style="padding:4px 10px;">Double</td><td>64 bits (8 bytes)</td><td>15&ndash;17 &nbsp;&rdquo;&nbsp;&nbsp;&rdquo;</td><td></td></tr>
+    <tr><td style="padding:4px 10px;">Numeric (P,S)</td><td class="note">total digits</td><td class="note">decimal place</td><td>10.12783461291 &rarr; (11,9)</td></tr>
+  </table>
+
+  <p class="note">use Float &#8594; Memory / storage constraints matter more than scientific accuracy.</p>
+  <p class="note">use Double &#8594; Higher analytical accuracy is needed.</p>
+
+  <p style="margin-top:22px;"><span class="circle-term">String</span>
+    <span class="note" style="margin-left:14px;">if string uniform in length &#8594; storage in length</span>
+  </p>
+  <ul style="list-style:none; padding-left:6px;">
+    <li><b class="black">Char(n)</b> &#8594; Fast for direct memory (but waste)</li>
+    <li><b class="black">Varchar(n)</b> &#8594; excellent balance of Performance and space</li>
+    <li><b class="black">Text</b> &#8594; up to 2GB to 4GB</li>
+    <li><b class="black">Nvarchar</b> &#8594; unicode storage (UTF&ndash;16) <span class="note">&mdash; max number of char</span>
+      <ul style="margin-top:2px;">
+        <li>&#8618; vs ASCII code</li>
+        <li>&#8618; use multiple language</li>
+      </ul>
+    </li>
+  </ul>
+
+  <p style="margin-top:22px;"><span class="circle-term">Date</span></p>
+  <table style="font-size:19px; color:var(--navy);">
+    <tr><td style="padding:4px 20px 4px 6px;">Date</td><td>2026&ndash;06&ndash;07</td></tr>
+    <tr><td style="padding:4px 20px 4px 6px;">Time</td><td>12:12:12</td></tr>
+    <tr><td style="padding:4px 20px 4px 6px;">Timestamp</td><td>20&nbsp;&Prime; + &Prime;</td></tr>
+  </table>
+
+  <div class="page-footer"><span>Data Types</span><span>Notebook &middot; pg 2</span></div>
+</div>
+
+<!-- PAGE 3 -->
+<div class="page">
+  <div class="spiral">
+    <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+  </div>
+  <div class="page-num">1 / 1</div>
+
+  <h1 class="title" style="border-radius:50%; padding:2px 30px;">keys</h1>
+
+  <h2 class="box-title">Relational &amp; Logical keys</h2>
+
+  <div class="two-col">
+    <div>any combination of columns<br>that can uniquely [identify] rows<br>&#8594; Table have many super keys<br>&#8594; allow nulls <span class="note">(depend on column)</span></div>
+    <div>minimal super keys<br>+ uniqueness<br>&#8594; No nulls</div>
+  </div>
+
+  <div class="key-diagram">
+    <div class="box-outer">
+      <span class="label-top">Super key</span>
+      <div class="box-mid">
+        <span class="label-top">Candidate key</span>
+        <div class="box-inner-row">
+          <div class="box-inner">Primary key</div>
+          <div class="box-inner">alternate key</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div>The single candidate to<br>uniquely identify<br>+ Not nulls<br>+ only <u>one</u> in table</div>
+    <div>Any candidate keys<br>was not selected<br>as Primary key<br>+ allowed nulls <span class="note">(varies by DB)</span></div>
+  </div>
+
+  <p style="margin-top:22px;"><span class="black" style="font-weight:700; border:2px solid var(--ink-black); border-radius:10px; padding:2px 10px;">* Composite key</span>
+    &#8658; A Primary or Candidate key<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;made up of two or more columns.</p>
+
+  <p style="margin-top:14px;"><span class="black" style="font-weight:700; border:2px solid var(--ink-black); border-radius:10px; padding:2px 10px;">Foreign key</span>
+    &#8658; one table that references<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the Primary key of another table.</p>
+
+  <div class="page-footer"><span>Keys</span><span>Notebook &middot; pg 3</span></div>
+</div>
+
+<!-- PAGE 4 -->
+<div class="page">
+  <div class="spiral">
+    <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+  </div>
+  <div class="page-num">1 / 1</div>
+
+  <h2 class="box-title">Design and Architecture key types</h2>
+
+  <p><span class="oval-term">Natural key</span> &#8658; formed from existing real world<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;attributes &mdash; <span class="black">Human-readable</span></p>
+
+  <p><span class="oval-term">Surrogate key</span> &#8658; system generated numeric<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with no biz logic</p>
+
+  <p><span class="oval-term">UUID / GUID</span> &#8658; 128 bit globally unique
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;&bull;&nbsp; Prevents key collisions in multi&#8209;region<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;microservice and offline data generation</p>
+
+  <p><span class="oval-term">Business key</span> &#8658; used by OLTP to track an entity<br>&nbsp;&nbsp;&nbsp;&nbsp;&#8618; shared domain language cross APPs</p>
+
+  <p><span class="oval-term">Persistent key</span> &#8658; static surrogate key created<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in data warehouse that never changes<br>&nbsp;&nbsp;&nbsp;&nbsp;&#8658; Crucial for tracking historical data<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;over time in (SCD)</p>
+
+  <p style="margin-top:20px;"><span class="oval-term">Physical &amp; index keys</span> &nbsp;<span class="black">database internal</span></p>
+
+  <p style="margin-top:16px; display:flex; gap:16px; flex-wrap:wrap;">
+    <span class="oval-term">Clustered key</span>
+    <span class="oval-term">Non-clustered key</span>
+    <span class="oval-term">Covering key</span>
+  </p>
+  <p><span class="oval-term">Partition key</span></p>
+
+  <div class="page-footer"><span>Design &amp; Architecture Key Types</span><span>Notebook &middot; pg 4</span></div>
+</div>
+
+<!-- PAGE 5 -->
+<div class="page">
+  <div class="spiral">
+    <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+  </div>
+  <div class="page-num">1 / 1</div>
+
+  <h3 class="section" style="display:inline-block;">Normalization</h3>
+  <span class="note" style="margin-left:10px;">to eliminate &#8658; data redundancy</span><br>
+  <span class="note" style="margin-left:190px;">&#8658; data anomalies</span>
+
+  <p style="margin-top:16px;" class="black" style="font-weight:700;">what it solve</p>
+  <div class="anomaly-list">
+    <p class="black">1&#41; insertion anomaly</p>
+    <p class="black">2&#41; update anomaly</p>
+    <p class="black">3&#41; deletion anomaly</p>
+  </div>
+
+  <p style="margin-top:18px;">&bull; First Normal Form: <span class="circle-term" style="font-size:17px;">1NF</span></p>
+  <p style="margin-left:20px;">&#8618; every column must contain <b>(indivisible values)</b><br>
+    &nbsp;&nbsp;&nbsp;&#10052; separate repeating items into<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;individual rows (one scalar value)</p>
+
+  <p style="margin-top:14px;">&bull; Second Normal Form: <span class="circle-term" style="font-size:17px;">2NF</span></p>
+  <p style="margin-left:20px;">&#8618; every non-key attribute must fully<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;depend on the entire Primary key.</p>
+
+  <p style="margin-top:14px;">&bull; Third Normal Form: <span class="circle-term" style="font-size:17px;">3NF</span></p>
+  <p style="margin-left:20px;">&#8618; non-key columns can only depend<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;on the Primary key.</p>
+
+  <p style="margin-top:14px;">&bull; <b class="black">BCNF</b> &#8594; resolve rare anomalies where a table<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;has multiple overlapping composite<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;candidate keys.</p>
+
+  <div class="page-footer"><span>Normalization</span><span>Notebook &middot; pg 5</span></div>
+</div>
+
+<!-- PAGE 6 -->
+<div class="page">
+  <div class="spiral">
+    <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+  </div>
+  <div class="page-num">1 / 1</div>
+
+  <h3 class="section">slowly Changing dimension</h3>
+
+  <p style="margin-top:10px;"><span class="oval-term">SCD Type 0</span> &#8658; The attribute value is set once<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(never changes)</p>
+
+  <p style="margin-top:14px;"><span class="oval-term">SCD Type 1</span> &#8594; replaces the old data with<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the new data directly.</p>
+
+  <p style="margin-top:14px;"><span class="oval-term">SCD Type 2</span> &#8594; create a new row with a new<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;surrogate key every time.</p>
+
+  <p style="margin-top:14px;"><span class="oval-term">SCD Type 3</span> &#8658; add a dedicated column</p>
+
+  <div class="page-footer"><span>Slowly Changing Dimension (SCD)</span><span>Notebook &middot; pg 6</span></div>
+</div>
+
+</body>
+</html>

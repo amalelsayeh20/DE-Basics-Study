@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CS Notes – Clean Copy</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Lateef&display=swap">
+<style>
+:root{--bg:#e9e5d8;--paper:#fffef9;--rule:#d6e4ee;--blue:#23289a;--green:#14843f;--red:#c4202f;--ink:#3a3a3a;--hl:#fff2a0;--tag:#7a7a70;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15161a;--paper:#22242b;--rule:#2f3540;--blue:#9fb0ff;--green:#5fd592;--red:#ff8a93;--ink:#d8d8d8;--hl:#5a5322;--tag:#999}}
+:root[data-theme="dark"]{--bg:#15161a;--paper:#22242b;--rule:#2f3540;--blue:#9fb0ff;--green:#5fd592;--red:#ff8a93;--ink:#d8d8d8;--hl:#5a5322;--tag:#999}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--blue);font:500 21px/1.3 Caveat,"Segoe Print","Bradley Hand",cursive}
+.pg{max-width:900px;margin:14px auto;padding:14px 14px 20px;background:repeating-linear-gradient(var(--paper) 0 29px,var(--rule) 29px 30px);border:1px solid var(--rule);border-radius:4px;overflow-x:auto}
+.tag{font:14px system-ui,sans-serif;color:var(--tag);border-bottom:1px dashed var(--tag);padding-bottom:4px;margin-bottom:8px}
+.g{color:var(--green)}.b{color:var(--blue)}.r{color:var(--red)}.k{color:var(--ink)}
+.ov{display:inline-block;border:2px solid var(--green);border-radius:40px;padding:1px 16px;color:var(--blue)}
+.bx{display:inline-block;border:2px solid var(--green);border-radius:4px;padding:1px 12px;color:var(--blue)}
+.big{font-size:27px}.sm{font-size:18px}.c{text-align:center}
+.hl{background:linear-gradient(transparent 55%,var(--hl) 55%)}
+.u{text-decoration:underline}
+.ar{font:400 25px/1.2 Lateef,serif;direction:rtl;unicode-bidi:isolate;border-bottom:1px dotted currentColor}
+p,ul{margin:3px 0}ul{padding-left:20px}
+.a{color:var(--green);text-align:center;margin:0}
+.m{display:grid;grid-template-columns:1fr 1.1fr 1fr;gap:0 10px;min-width:560px;align-items:center}
+.m .s{border:2px solid var(--ink);margin:-1px 0;padding:10px 4px;text-align:center;color:var(--blue);font-size:23px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.cell{display:flex;border:2px solid var(--ink);width:260px;margin:4px auto}.cell b{flex:1;text-align:center;border-left:2px solid var(--ink);font-weight:500;color:var(--ink)}.cell b:first-child{border:0}
+.five{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;text-align:center}
+.tr{display:grid;grid-template-columns:auto 1fr;gap:2px 10px}
+.box2{border:2px solid var(--ink);border-radius:30px 30px 30px 6px;padding:6px 14px;margin-top:10px}
+</style></head><body>
+
+<section class="pg"><div class="tag">Page 1 · Memory management – physical memory regions</div>
+<p class="g big">* Memory Mangement</p>
+<p>↳ two logical regions in Hardware memory</p>
+<div class="c" style="margin:6px 0"><span class="ov" style="border-radius:40px">Physical Memory regions</span></div>
+<div class="m">
+<span></span><span></span><span class="sm k u">top of memory 0xffff</span>
+<span></span><div class="s">Kernel Space</div><span></span>
+<span></span><div class="s">stack<br>↓</div>
+<ul class="sm" style="list-style:none;padding:0"><li>→ • static memory</li><li>• fast (LIFO)</li><li>• limited in size</li><li class="r">• Read <span class="b">+ write</span></li></ul>
+<ul class="sm" style="list-style:none;padding:0"><li>• dynamic memory</li><li>• slower</li><li>• vary size</li><li class="r">• Read + write</li></ul>
+<div class="s">↑<br>HeaP</div><span></span>
+<span></span><div class="s">Bss segment</div><span></span>
+<span class="sm">↙</span><div class="s">Data segment</div><span></span>
+<ul class="sm" style="list-style:none;padding:0"><li>• initialized data segment</li><li class="g">↳ • global or static variables</li><li class="g">• fixed size</li><li class="r">• Read + write</li></ul>
+<div class="s">Text / Code segment</div>
+<ul class="sm g" style="list-style:none;padding:0"><li>• Machine instructions (assembly)</li><li class="r">• Read only + executable Memory Protection</li><li>• instruction Pointer</li><li>→ Program Counter</li><li class="b">EIP/RIP</li></ul>
+<span></span><span class="sm k u c">Bottom 0x00000</span><span></span>
+</div></section>
+
+<section class="pg"><div class="tag">Page 2 · Memory management story</div>
+<p class="g big u">memory mangement story</p>
+<div class="five" style="margin:8px 0">
+<div><span class="bx k" style="border-color:var(--ink);border-radius:30px">Code</span><p class="sm k">static file · hard disk →</p></div>
+<div><span class="ov r" style="border-color:var(--red)">OS</span> <span class="sm">mistro</span><p class="sm g">↘ virtual address space</p></div>
+<div><span class="ar b">مخزن</span><br><span class="ov" style="border-color:var(--red)">RAM</span><p class="sm">every box have Memory address</p></div>
+<div><span class="ar b">مصنع</span><br><span class="ov" style="border-color:var(--red)">CPU</span><ul class="sm" style="text-align:left"><li>temprory memory</li><li>fast</li><li>Registers <span class="ar">كتير… ويتخزن فيها</span></li></ul></div></div>
+<div class="a">↓</div>
+<div class="cell"><b>5</b><b>4</b><b>3</b><b>2</b><b>1</b></div>
+<div class="five" style="margin-top:10px">
+<div><span class="ov">stack</span><p class="ar b">ده عنده قانونه مش هيل Heap</p></div>
+<div><span class="bx">HeaP</span><p class="ar b">كل شوية بيجيلها ضيف وبتطلب OS توسيع</p></div>
+<div><span class="bx">Bss</span><p class="ar b">بيحجز مساحه برضه بس مش مفرده</p></div>
+<div><span class="bx">Data</span><p class="ar b">بيحجز مساحه وقيمه واضحه</p></div>
+<div><span class="bx">text / Code</span><p>↓ Read only</p><p class="r">↓ if you try change 😖</p><p>segmentation fault</p></div></div>
+</section>
+
+<section class="pg"><div class="tag">Page 3 · Memory problems</div>
+<p class="c"><span class="ov r" style="border-color:var(--red);color:var(--red)">Problems</span></p>
+<p><span class="ar">لما الكود بينادي على</span> functions <span class="ar">جوا بعض بتنادي</span></p>
+<p class="r big">* Control flow distripution *</p>
+<p><span class="b">Cause ⇒</span> <span class="hl">execution state, local variables, and Program Continuity are lost, during nested / recursive function Calls</span></p>
+<p><span class="u">Solution →</span> <span class="ar">لو الداتا ضخمه</span></p>
+<p>* recursive Calles → make new frame → on stack by stack overflow</p>
+<p>solution ⟶ replace <span class="g">(recursion)</span> to <span class="g">(intrative loop)</span><br><span class="g">or use good data structure (stack, Queue)</span></p>
+<hr style="border:0;border-top:2px solid var(--red);margin:14px 30%">
+<div class="two">
+<div><p class="r">* Memory leaks</p><p class="a b">↓</p><p>out of memory crash</p><p>Cause → loading to much data</p>
+<p><span class="ar k">حجز مكان في Heap وعمل Pointer من غير (delete) للبيوت اللي مش مهمه</span></p><p>solution: use dynamic arrayes</p></div>
+<div><p class="r">* Memory fragmentation</p><p class="a b">↓</p><p>allocation error</p>
+<p><span class="ar k">علشان لما الحجز والحرق يتخلى ال Heap تعمل holes محجوزة افتراضيا ملهاش لازمه</span></p></div></div>
+</section>
+
+<section class="pg"><div class="tag">Page 4 · Memory – finally</div>
+<div style="display:flex;justify-content:space-between;flex-wrap:wrap"><span class="g">* finally</span><span class="g">what? How work? why?</span></div>
+<p class="g big">why was Physical Memory designed This way?</p>
+<p>Core Problem ⇒ <span class="ov" style="border:0;border-bottom:2px solid var(--green)">CPU</span> ↓ ultra fast &nbsp; <span class="u">Hard disk</span> ↓ extremely slow</p>
+<p>solution → Ram → <span class="hl">High speed middle ground to store only active Problems and data needs</span></p>
+<p style="margin-top:12px"><span class="ov">1 Code segment</span> <span class="ar r">“ايدك يا لا تقطع… ملمسش الكود..”</span></p>
+<p>why Good → <span class="hl">Prevents Code from overwriting accidentally or via malicious attacks.</span></p>
+<p style="margin-top:12px"><span class="g big">2) Data segment</span> <span class="ar r">“سيطا يعكر الأمرار واحفظها وأول ما اقفرلى مش هعبيك..”</span></p>
+<p>Role → <span class="hl">global and static variables with Pre-defined values</span></p>
+<p style="margin-top:12px"><span class="g big">3) Bss segment</span> <span class="ar r">“متقرش تشغلنى فوق طاقتى.. أنا معمل نضى لشغولة وأحط اصفار علشان محدش يستغل طاقتى غير بدراحى..”</span></p>
+<p>why Good ⇒ <span class="hl">Reduse file size on the hard drive</span></p>
+</section>
+
+<section class="pg"><div class="tag">Page 5 · Data structures – all types (mind map)</div>
+<div class="c"><span class="ov big">All Types</span></div><p class="a big">↙ &nbsp; &nbsp; ↘</p>
+<div class="two">
+<div><span class="bx big">Primitive DS</span><p>int, Float, Char<br>Pointer ⇒ C++</p></div>
+<div><span class="bx big">Non-Primitive</span><p class="a" style="text-align:left">↓</p>
+<div class="two">
+<div><span class="bx">linear DS</span>
+<p><span class="ov sm">Static Memory layout</span></p><ul style="list-style:none;padding:0 0 0 6px"><li class="g">→ <span class="b">Array</span></li><li class="g">→ <span class="b">Matrix</span></li></ul>
+<p><span class="ov sm">Dynamic Memory layout</span></p><ul style="list-style:none;padding:0 0 0 6px"><li class="g">→ <span class="b">linked list</span></li><li class="g">→ <span class="b">Stack</span></li><li class="g">→ <span class="b">Queue</span></li></ul></div>
+<div><span class="bx">Non-linear DS</span> <span class="g sm">advanced</span>
+<p><span class="ov sm">Trees</span></p><ul class="sm"><li>Binary tree</li><li>Binary search tree</li><li>AVL / Red bla…</li><li>B tree / B+ -</li></ul>
+<p><span class="ov sm">Graphs</span></p><ul class="sm"><li>Directed graph</li><li>undirected graph</li><li>weighted ..</li></ul>
+<p><span class="ov sm">Hash-Based</span></p><ul class="sm"><li>Hash / map</li><li>heap .</li><li>Trie</li><li>DisJoint Set</li></ul></div></div></div></div>
+</section>
+
+<section class="pg"><div class="tag">Page 6 · Chap (2) – measuring algorithm performance</div>
+<p class="k sm">ChaP (2)</p>
+<p class="c big">How to measure &amp; Compare<br>Algorithms Performance</p>
+<div class="two">
+<div><p class="a" style="text-align:left">↙</p><p class="big">Profiling<br><span class="g">emperical testing</span></p><p>↓ <s>evaluting The alg.</s></p>
+<p>Running The actual Code <s>to m</s> with inPut (stopwatch)</p><p>↓ to measure execution Plan</p><p>↓</p>
+<p><span class="bx" style="border-radius:6px">using tools like Python's CProfile</span></p><p>↓</p><p class="g">to debug and optimize lines in your actual Code during execution</p></div>
+<div><p class="a" style="text-align:right">↘</p><p class="big">Big -O<br><span class="g">Assymptotic Analysis</span></p><p>↓</p>
+<p class="g"><span class="hl">Calculating how its steP Count or memory needs grow as inPut size</span></p><p>↓</p><p>indelpendent of hardware or Programming langu…</p><p>↓</p><p class="g">to choose The right algorithms in Paper before writing Code</p></div></div>
+</section>
+
+<section class="pg"><div class="tag">Page 7 · Notation and Big (O) – time and space complexity</div>
+<p class="g c big">Notation</p>
+<div class="five" style="grid-template-columns:repeat(auto-fit,minmax(170px,1fr))">
+<div><span class="bx">Big omeg (Ω)</span><p>↓ <span class="hl">lower Bound</span></p><p>↓ Best Case scenario</p></div>
+<div><span class="bx">Big (O)</span><p>↓ <span class="hl">upper Bound</span></p><p>↓ worst Case scenario</p></div>
+<div><span class="bx">Big - Theta (Θ)</span><p>↓ <span class="hl">Thight Bound</span></p><p>↓ averrage Case</p></div></div>
+<p class="c" style="margin-top:10px"><span class="ov big">Big (O)</span></p>
+<div class="two">
+<div><p class="big">Time Complexity</p><div class="tr">
+<span class="g">O(1) →</span><span>Constant (array)</span>
+<span class="g">O(log N) →</span><span>logarithmic (Binary search)</span>
+<span class="b">O(N) →</span><span>linear (array or list), loop)</span>
+<span class="b">O(N)² →</span><span>Quadratic (wasted loops)</span>
+<span class="g">O(2<sup>N</sup>) →</span><span>exponential (decission tree)</span>
+<span class="g">O(N)!</span><span>factorial</span></div></div>
+<div><p class="big">space Complexity</p><div class="tr">
+<span class="b">O(1) →</span><span>modifing data without allocating additional data</span>
+<span class="b">O(N)</span><span>Creating duplicate list, arrays deep recursion</span></div>
+<div class="box2"><p class="g">Avoid ⇒ O(N)<br>on large dataset<br>N &gt; RAM</p><p>↓</p><p>to Prevent out of memory error → by streaming</p></div></div></div>
+</section>
+
+<section class="pg"><div class="tag">Page 8 · Growth-rate graph (time vs data)</div>
+<svg viewBox="0 0 620 420" width="100%" style="max-width:620px;display:block;margin:auto" fill="none" stroke-width="3">
+<path d="M70 30V370H560" stroke="var(--ink)" stroke-width="2"/>
+<g stroke="var(--green)" stroke-linecap="round"><path d="M80 365C90 250 95 120 100 50"/><path d="M80 365C110 280 140 150 175 50"/><path d="M80 365C130 290 190 150 250 50"/><path d="M80 365L420 70"/><path d="M80 365C170 300 260 280 420 272"/><path d="M80 365H470"/></g>
+<g fill="var(--blue)" stroke="none" font-family="Caveat,cursive" font-size="24"><text x="6" y="210">time</text><text x="200" y="405">data (N)</text><text x="60" y="28">O(n!)</text><text x="125" y="28">O(n^2)</text><text x="210" y="28">O(n log n)</text><text x="430" y="68">O(N)   linear</text><text x="428" y="280">O(log n)</text><text x="478" y="350">O(1)  Constant</text></g></svg>
+</section>
+</body></html>

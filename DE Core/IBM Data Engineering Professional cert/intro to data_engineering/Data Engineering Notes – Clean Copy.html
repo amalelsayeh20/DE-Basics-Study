@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Data Engineering Notes – Clean Copy</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&display=swap">
+<style>
+:root{--bg:#e9e5d8;--paper:#fffef9;--rule:#d6e4ee;--blue:#23289a;--green:#14843f;--ink:#2e2e2e;--hl:#fff2a0;--tag:#7a7a70;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15161a;--paper:#22242b;--rule:#2f3540;--blue:#9fb0ff;--green:#5fd592;--ink:#d8d8d8;--hl:#5a5322;--tag:#999}}
+:root[data-theme="dark"]{--bg:#15161a;--paper:#22242b;--rule:#2f3540;--blue:#9fb0ff;--green:#5fd592;--ink:#d8d8d8;--hl:#5a5322;--tag:#999}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);background-color:var(--bg);color:var(--blue);font:500 22px/1.3 Caveat,"Segoe Print","Bradley Hand",cursive}
+.pg{max-width:880px;margin:14px auto;padding:16px 16px 22px;background:repeating-linear-gradient(var(--paper) 0 29px,var(--rule) 29px 30px);border:1px solid var(--rule);border-radius:4px;overflow-x:auto}
+.tag{font:14px system-ui,sans-serif;color:var(--tag);margin-bottom:8px;border-bottom:1px dashed var(--tag);padding-bottom:4px}
+.g{color:var(--green)}.b{color:var(--blue)}.k{color:var(--ink)}
+.ov{display:inline-block;border:2px solid var(--green);border-radius:50px;padding:2px 18px;color:var(--green)}
+.bx{display:inline-block;border:2px solid currentColor;border-radius:5px;padding:2px 12px}
+.big{font-size:28px}
+.hl{background:linear-gradient(transparent 55%,var(--hl) 55%)}
+.u{text-decoration:underline}
+h4{margin:10px 0 2px;color:var(--green);font-size:24px;font-weight:700}
+p,ul{margin:2px 0}ul{padding-left:20px}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.c{text-align:center;margin:6px 0}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.col{border-top:3px solid var(--green);padding-top:6px}
+.sm{font-size:18px}
+.step{display:flex;gap:8px;margin:5px 0}.n{border:2px solid var(--blue);border-radius:4px;width:26px;height:26px;text-align:center;line-height:24px;flex:none;font-size:19px}
+.it{display:flex;align-items:center;gap:14px;margin:12px 0}
+.it .ov{min-width:76px;text-align:center}
+.cut{border-right:3px dashed var(--tag);padding-right:6px;margin-top:10px;font-size:16px;font-family:system-ui,sans-serif;color:var(--tag);text-align:right}
+.nos{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-top:8px}
+.nos>div{text-align:center}
+.nos .ov{padding:2px 12px}
+</style></head><body>
+
+<section class="pg">
+<div class="tag">Page 1 · Data Sources (mind map)</div>
+<div class="row"><span class="bx k">IBM</span><span class="bx k">Personal Search</span></div>
+<div class="c"><span class="ov big">Data Sources</span></div>
+<ul class="b c" style="list-style:none;padding:0">
+<li>Flat files</li><li>CRM, ERP, others</li><li>Data warehouse / lake</li><li>web, APPs</li></ul>
+<div class="c g big">↙ &nbsp; ↓ &nbsp; ↘</div>
+<div class="cols">
+
+<div class="col"><div class="c"><span class="bx g big">APIs</span></div>
+<h4>Connecting</h4>
+<p>End Point → URL</p><p class="sm"><span class="hl">“where a specific dataset lives.”</span></p>
+<p>HTTP methods</p><ul><li>Get: Fetch data</li><li>Post: send data</li></ul>
+<h4>Security</h4>
+<p>API key ⇒ <span class="hl">a secret code string sent in headers to authentication.”</span></p>
+<p>Bearer Token / OAuth</p>
+<h4>Data format</h4>
+<p>↳ Json, Nested Json</p></div>
+
+<div class="col"><div class="c"><span class="bx g big">Database</span></div>
+<p>Relational (OLTP)</p><p>NoSQL</p>
+<p class="u">ingestion method</p>
+<h4>how execute</h4>
+<p><span class="g">small data</span> <span class="sm">we need</span></p>
+<ul><li>Host/Server address</li><li>database name</li><li>credentials</li><li>sql query</li></ul>
+<p><span class="ov">(by Python)</span></p>
+<p class="g" style="margin-top:8px">Big data</p>
+<ul><li>PySpark</li><li>Batch</li><li>CDC</li></ul>
+<h4>No code ingestion tools</h4>
+<p>↳ Airbyte / Fivetran</p><p>↳ Apache Airflow</p></div>
+
+<div class="col"><div class="c"><span class="bx g big">IoT</span></div>
+<h4>Pipeline architecture</h4>
+<div class="step"><span class="n">1</span><div>Sensors / Devices<br><span class="sm"><span class="hl">Generate raw metric events</span></span></div></div>
+<div class="step"><span class="n">2</span><div>IoT Broker<br><span class="sm"><span class="hl">central message handler</span></span></div></div>
+<div class="step"><span class="n">3</span><div>Event Buffer<br><span class="sm"><span class="hl">High-throughput messaging queues like Apache Kafka</span></span></div></div>
+<div class="step"><span class="n">4</span><div>Stream Processor<br><span class="sm">by PySpark</span></div></div>
+<div class="step"><span class="n">5</span><div>storage</div></div></div>
+
+</div></section>
+
+<section class="pg">
+<div class="tag">Page 2 · Standard files format</div>
+<h4 class="u big" style="margin:0 0 10px">standard files format</h4>
+<div class="it"><div><div class="ov">CSV</div><div class="ov" style="margin-top:12px">TSV</div></div>
+<div class="big k" style="font-size:38px">}</div>
+<div><span class="hl">stored data as text with delimiters</span><br>⇒ tabs, or Comma</div></div>
+<div class="it"><span class="ov">XLSX</span><div>→ based spread sheet format<br>“Micro soft”</div></div>
+<div class="it"><span class="ov">XML</span><div>→ <s>based spread sheet format</s><br><span class="hl">Self descriptive markup language for incoding data</span></div></div>
+<div class="it"><span class="ov">Pdf</span><div>→ documents</div></div>
+<div class="it"><span class="ov">Json</span><div><span class="hl">text based language independent format</span><br>“Java script”</div></div>
+</section>
+
+<section class="pg">
+<div class="tag">Page 3 · Components of MDS (photo cuts off at the right edge)</div>
+<div style="margin-bottom:10px"><span class="bx g big">Components of MDS</span></div>
+<div class="nos">
+<div><span class="ov k" style="color:var(--ink);border-color:var(--ink)">data sources</span>
+<p class="sm">DB · API APPs · web · IoT · CSV..</p><div class="g big">↓</div></div>
+<div><svg width="110" height="80" viewBox="0 0 110 80" fill="none" stroke="var(--ink)" stroke-width="2"><rect x="38" y="4" width="34" height="14"/><rect x="6" y="32" width="26" height="14"/><rect x="78" y="32" width="26" height="14"/><rect x="42" y="56" width="26" height="14"/><path d="M55 18v8M19 26h72M19 26v6M91 26v6M55 46v10"/></svg>
+<p>Data modeling</p></div>
+<div><span class="bx k">Da… St…</span>
+<p class="sm"><span class="hl">Data warehouse</span> ↓ structured data</p></div></div>
+<p style="margin-top:12px">* in final step ⇒ <span class="u hl">‖Data observability‖</span></p>
+<div class="nos">
+<div><span class="ov">Data discovery</span><p class="sm">↓ access hidden data or Siloed</p></div>
+<div><span class="ov">Data governance</span><p class="sm">↓ Policies</p></div></div>
+<hr style="border:0;border-top:2px solid var(--green);margin:16px 0 4px">
+<p class="g u">accessib…</p>
+<div class="nos"><div><span class="ov">C…</span><p class="sm">us…</p></div></div>
+<div class="cut">photo ends here</div>
+</section>
+
+<section class="pg">
+<div class="tag">Page 4 · Databases: SQL vs NoSQL</div>
+<div class="c"><span class="u big">database</span></div>
+<div class="cols" style="margin-top:6px">
+<div class="col" style="border-color:var(--blue)"><h4 style="color:var(--blue)" class="u">SQL</h4>
+<p>Structure data</p><ul style="list-style:none;padding-left:4px"><li>→ MySQL</li><li>→ sql Server</li><li>→ postgres</li></ul>
+<p class="sm k"></p></div>
+<div class="col" style="border-color:var(--blue)"><h4 style="color:var(--blue)" class="u">No sql</h4>
+<p>↓ Semi – un Structure</p></div></div>
+
+<div class="nos" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-top:14px">
+<div><span class="ov">Key value stores</span><p>↓ store<br>↓ <span class="hl">RAM</span><br>↓<br><b class="g">Redis</b></p><p class="sm">* fast and realtime<br>* hospital sys</p></div>
+<div><span class="ov">Document stores</span><p>↓ store<br>↓ <span class="hl">Json, Bson</span><br>↓<br><b class="g">MongoDB</b></p><p class="sm">* API, web and result;<br>* Amazon</p></div>
+<div><span class="ov">Wide Columns Stores</span><p>↓ store<br>↓ <span class="hl">Column relat…</span><br>↓<br><b class="g">Apache azurse</b></p><p class="sm">* fast and result;<br>* uber<br>IoT</p></div>
+<div><span class="ov">Graph stores</span><p>↓ store<br>↓ <span class="hl">imPo…</span> add and fly<br>↓<br><b class="g">Neo4j</b></p><p class="sm">* linkedin<br>* facebook</p></div>
+</div></section>
+
+</body></html>
