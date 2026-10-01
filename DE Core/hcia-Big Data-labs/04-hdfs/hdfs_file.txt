@@ -1,0 +1,1 @@
+Hello directly to HDFS

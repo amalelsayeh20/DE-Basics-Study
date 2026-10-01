@@ -21,3 +21,4 @@
 2026-Oct-01-13:11:21 : SQL Connection initiated
 2026-Oct-01-13:11:21 : Data loaded to Database as table. Running queries now
 2026-Oct-01-13:11:21 : Process Completed
+2026-Oct-01-13:48:00 : Data saved to CSV file
